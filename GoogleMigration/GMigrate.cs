@@ -17,9 +17,9 @@ using Google.Apis.Util.Store;
 
 namespace GoogleMigration
 {
-    public partial class Form1 : Form
+    public partial class GMigrate : Form
     {
-        public Form1()
+        public GMigrate()
         {
             InitializeComponent();
         }
@@ -59,7 +59,7 @@ This is the body of the migrated email message.
             var service = new GroupsMigrationService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = GetAuth(),
-                ApplicationName = "group migration application"
+                ApplicationName = "Google Groups Migration"
             });
 
             var request = service.Archive.Insert("group@yourdomain.com", messageStream, "message/rfc822");
@@ -74,12 +74,28 @@ This is the body of the migrated email message.
 
         private void readPst_btn_Click(object sender, EventArgs e)
         {
-            PstReader pst = new PstReader {PstPath = @"C:\temp\Testing.pst"};
+            if (!File.Exists(pstPath_txt.Text)) return;
+            PstReader pst = new PstReader {PstPath = pstPath_txt.Text};
             pst.LoadPst();
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
+        }
 
-
+        private void browse_btn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog findPstDialog = new OpenFileDialog();
+            findPstDialog.Title = "Load PST File";
+            findPstDialog.InitialDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+            findPstDialog.Filter = "PST File (*.pst)|*.pst";
+            findPstDialog.FilterIndex = 1;
+            findPstDialog.RestoreDirectory = true;
+            if (findPstDialog.ShowDialog() == DialogResult.OK)
+            {
+                pstPath_txt.Text = findPstDialog.FileName;
+            }
+        }
     }
 }
