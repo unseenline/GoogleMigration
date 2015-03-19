@@ -16,7 +16,7 @@ namespace GoogleMigration
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GMigrate());
+            Application.Run(new Main());
         }
     }
 }
