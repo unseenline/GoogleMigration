@@ -36,11 +36,12 @@
             this.btn_SetClientId = new System.Windows.Forms.Button();
             this.txt_GroupAddress = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btn_Save_Config = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_GroupUpload
             // 
-            this.btn_GroupUpload.Location = new System.Drawing.Point(157, 94);
+            this.btn_GroupUpload.Location = new System.Drawing.Point(157, 67);
             this.btn_GroupUpload.Name = "btn_GroupUpload";
             this.btn_GroupUpload.Size = new System.Drawing.Size(111, 23);
             this.btn_GroupUpload.TabIndex = 0;
@@ -50,7 +51,7 @@
             // 
             // readPst_btn
             // 
-            this.readPst_btn.Location = new System.Drawing.Point(380, 94);
+            this.readPst_btn.Location = new System.Drawing.Point(385, 67);
             this.readPst_btn.Name = "readPst_btn";
             this.readPst_btn.Size = new System.Drawing.Size(75, 23);
             this.readPst_btn.TabIndex = 1;
@@ -67,7 +68,7 @@
             // 
             // browse_btn
             // 
-            this.browse_btn.Location = new System.Drawing.Point(385, 43);
+            this.browse_btn.Location = new System.Drawing.Point(385, 38);
             this.browse_btn.Name = "browse_btn";
             this.browse_btn.Size = new System.Drawing.Size(75, 23);
             this.browse_btn.TabIndex = 3;
@@ -86,7 +87,7 @@
             // 
             // btn_SetClientId
             // 
-            this.btn_SetClientId.Location = new System.Drawing.Point(12, 94);
+            this.btn_SetClientId.Location = new System.Drawing.Point(12, 67);
             this.btn_SetClientId.Name = "btn_SetClientId";
             this.btn_SetClientId.Size = new System.Drawing.Size(99, 23);
             this.btn_SetClientId.TabIndex = 5;
@@ -110,11 +111,22 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Group Address:";
             // 
+            // btn_Save_Config
+            // 
+            this.btn_Save_Config.Location = new System.Drawing.Point(385, 96);
+            this.btn_Save_Config.Name = "btn_Save_Config";
+            this.btn_Save_Config.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save_Config.TabIndex = 8;
+            this.btn_Save_Config.Text = "Save Config";
+            this.btn_Save_Config.UseVisualStyleBackColor = true;
+            this.btn_Save_Config.Click += new System.EventHandler(this.btn_Save_Config_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 129);
+            this.Controls.Add(this.btn_Save_Config);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_GroupAddress);
             this.Controls.Add(this.btn_SetClientId);
@@ -141,6 +153,7 @@
         private System.Windows.Forms.Button btn_SetClientId;
         private System.Windows.Forms.TextBox txt_GroupAddress;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_Save_Config;
     }
 }
 

@@ -1,27 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
+using System.Net.Mail;
 namespace GoogleMigration
 {
     public class PstReader
     {
         public string PstPath { get; set; }
-        public void LoadPst()
+        public int MailItems { get; set; }
+        public string groupAddy { get; set; }
+        const int RtTo = (int)OlMailRecipientType.olTo;
+        const int RtFrom = (int)OlMailRecipientType.olOriginator;
+        const int RtCc = (int)OlMailRecipientType.olCC;
+        public List<string> LoadPst()
         {
+            List<string> rawMail = new List<string>();
+            string pstPath = PstPath;
             try
             {
-                string pstPath = PstPath;
                 IEnumerable<MailItem> mailItems = ReadPst(pstPath);
                 foreach (MailItem mailItem in mailItems)
                 {
-                    Console.WriteLine(mailItem.SenderName + " - " + mailItem.Subject);
+                    rawMail.Add(CreateMail(mailItem));
+                    Console.Write(mailItem);
+                    Console.WriteLine(mailItem.SenderName + @" - " + mailItem.Subject);
                 }
+                
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             Console.ReadLine();
+            MailItems =rawMail.Count;
+            return rawMail;
         }
 
         private static IEnumerable<MailItem> ReadPst(string pstFilePath)
@@ -40,6 +52,8 @@ namespace GoogleMigration
                 if (folder != null) pstName = folder.Name;
             }
 
+            //var contacts = outlookNs.AddressLists;//GetDefaultFolder(OlDefaultFolders.);
+            //Console.WriteLine(contacts.ToString());
             MAPIFolder rootFolder = outlookNs.Stores[pstName].GetRootFolder();
             // Traverse through all folders in the PST file
             // TODO: This is not recursive, refactor
@@ -60,5 +74,36 @@ namespace GoogleMigration
             outlookNs.RemoveStore(rootFolder);
             return mailItems;
         }
+
+        private string CreateMail(MailItem mi)
+        {
+            //string toAdd = "", fromAdd = "", ccAdd = "";
+
+           
+            //MailAddress fromAddress = new MailAddress(mi.SenderEmailAddress, mi.SenderName);
+            MailMessage message = new MailMessage(groupAddy, mi.SenderEmailAddress);//toAdd, mi.Sender.Address,mi.Subject,mi.Body);
+           // message.Sender = fromAddress;
+            message.Subject = mi.Subject;
+            message.Body = mi.Body;
+            //message.To.Add();
+            /*foreach (Recipient rec in mi.Recipients)
+            {
+                switch (rec.Type)
+                {
+                    case RtTo:
+                    {
+                        var temp = rec.Address;
+                        //message.To.Add(rec.Address);
+                    }break;
+                    case RtCc:
+                    {
+                        var temp = rec.Address;
+                        //message.CC.Add(rec.Address);
+                    }break;
+                }
+            }*/
+            return message.ToString();
+        }
+
     }
 }
