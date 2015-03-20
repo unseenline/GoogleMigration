@@ -14,9 +14,11 @@ namespace GoogleMigration
     {
         public string ClientSecret { get; set; }
         public string ClientId { get; set; }
-        public AddApiInfo()
+        public AddApiInfo(string tcId,string tcSec)
         {
             InitializeComponent();
+            txt_ClientId.Text = tcId;
+            txt_ClientSecret.Text = tcSec;
         }
 
         private void submit_btn_Click(object sender, EventArgs e)
@@ -29,6 +31,7 @@ namespace GoogleMigration
             {
                 ClientId = txt_ClientId.Text;
                 ClientSecret = txt_ClientSecret.Text;
+                DialogResult = DialogResult.OK;
                 Close();
             }
 
@@ -36,8 +39,8 @@ namespace GoogleMigration
 
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
-
     }
 }

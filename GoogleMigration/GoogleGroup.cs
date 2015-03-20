@@ -16,17 +16,6 @@ namespace GoogleMigration
         public string GroupAddress { get; set; }
         public string SetClientId { get; set; }
         public string SetClientSecret { get; set; }
-        public GoogleGroup()
-        {
-           /* MsgBody = @"Date: 16 Jul 07 10:12 GMT
-From: samplesender@example.com
-To: sales@q5systems.com
-Subject: Test Subject
-Message-Id: <1fdsfb345@acme.com>
-
-
-This is the body of the migrated email message. ";*/
-        }
 
         private UserCredential SetAuth()
         {

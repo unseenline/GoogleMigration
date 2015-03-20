@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Net.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,7 +49,26 @@ namespace GoogleMigration
                 };
                 cfg.GroupAddress = txt_GroupAddress.Text;
                 cfg.Save();
-                gg.ProcessMail();
+                var listEnumerator = _mailList.GetEnumerator();
+                //gg.MsgBody = "Date: 17 Feb 2015 17:00\r\nFrom: derper@q5systems.com\r\nTo: temp_test@q5systems.com\r\nSubject: Test Subject5\r\nMessage-Id: <1fdfdvslkjhgffdfesxsafgdb345>\r\n\r\n\r\nSo many more tests!!!.";
+                //gg.MsgBody = "Date: 17 Mar 2015 17:00 \r\nFrom: noreply@q5iata.com\r\nTo: temp_test@q5systems.com\r\nSubject: Automated Login Check passed\r\nMessage-Id: <000000001D65EBB777C7DF46B36D844CF90715EF24002000> \r\n\r\n______________________________________________________________________\r\nThis email has been scanned by the Boundary Defense for Email Security System. For more information please visit http://www.apptix.com/email-security/antispam-virus\r\n______________________________________________________________________";
+                /*string msg = @"Date: 16 Jul 07 10:12
+From: samplesender@example.com
+To: temp_test@q5systems.com
+Subject: Test Subject
+Message-Id: <1fdsfb345@acme.com>
+
+
+This is the body of the migrated email message. ";
+                gg.ProcessMail(); */
+                for (var i = 0; listEnumerator.MoveNext(); i++)
+                {
+                    string msg = listEnumerator.Current; // Get current item.
+                    gg.MsgBody = msg;
+                    Console.WriteLine(@"Currently at index {0}", i);
+                    gg.ProcessMail(); 
+                    //Console.WriteLine("At index {0}, item is {1}", i, currentItem); // Do as you wish with i and  currentItem
+                }
             }
         }
 
@@ -63,7 +83,6 @@ namespace GoogleMigration
                 if (!File.Exists(txt_pstPath.Text)) return;
                 PstReader pst = new PstReader {PstPath = txt_pstPath.Text, groupAddy = txt_GroupAddress.Text};
                 _mailList = pst.LoadPst();
-                var temp = 1;
             }
         }
 
@@ -92,19 +111,22 @@ namespace GoogleMigration
 
         private void ProcessApi()
         {
-            AddApiInfo aai = new AddApiInfo();
+            AddApiInfo aai = new AddApiInfo(_cId, _cSec);
             aai.ShowDialog();
-            _cId = aai.ClientId;
-            _cSec = aai.ClientSecret;
-            cfg.ClientId = _cId;
-            cfg.ClientSecret = _cId;
-            cfg.Save();
+            if (aai.DialogResult == DialogResult.OK)
+            {
+                _cId = aai.ClientId;
+                _cSec = aai.ClientSecret;
+                cfg.ClientId = _cId;
+                cfg.ClientSecret = _cSec;
+                cfg.Save();
+            }
         }
 
         private void btn_Save_Config_Click(object sender, EventArgs e)
         {
             cfg.ClientId = _cId;
-            cfg.ClientSecret = _cId;
+            cfg.ClientSecret = _cSec;
             cfg.PstPath = txt_pstPath.Text;
             cfg.GroupAddress = txt_GroupAddress.Text;
             cfg.Save();

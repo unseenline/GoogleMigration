@@ -8,7 +8,7 @@ namespace GoogleMigration
 {
     static class Program
     {
-        /// <summary>
+        /// <summary>d
         /// The main entry point for the application.
         /// </summary>
         [STAThread]

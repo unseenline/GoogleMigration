@@ -19,7 +19,7 @@ namespace GoogleMigration
         public string PstPath { get; set; }
         private readonly static string Home = Environment.GetEnvironmentVariable("USERPROFILE");
         private readonly string _configPath = Home + @"\Groups.Migrate.ini";
-        private IniData data;
+        private IniData _data;
         public Config()
         {
             Load();
@@ -43,21 +43,21 @@ namespace GoogleMigration
             }
 
             var fileParser = new FileIniDataParser();
-            data = fileParser.ReadFile(_configPath);
-            ClientId = data["API"]["ClientId"];
-            ClientSecret = data["API"]["ClientSecret"];
-            GroupAddress = data["Settings"]["GroupAddress"];
-            PstPath = data["Settings"]["PstPath"];
+            _data = fileParser.ReadFile(_configPath);
+            ClientId = _data["API"]["ClientId"];
+            ClientSecret = _data["API"]["ClientSecret"];
+            GroupAddress = _data["Settings"]["GroupAddress"];
+            PstPath = _data["Settings"]["PstPath"];
         }
 
         public void Save()
         {
             var fileParser = new FileIniDataParser();
-            data["API"]["ClientId"] = ClientId;
-            data["API"]["ClientSecret"] = ClientSecret;
-            data["Settings"]["GroupAddress"] = GroupAddress;
-            data["Settings"]["PstPath"] = PstPath;
-            fileParser.WriteFile(_configPath, data);
+            _data["API"]["ClientId"] = ClientId;
+            _data["API"]["ClientSecret"] = ClientSecret;
+            _data["Settings"]["GroupAddress"] = GroupAddress;
+            _data["Settings"]["PstPath"] = PstPath;
+            fileParser.WriteFile(_configPath, _data);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
 using System.Net.Mail;
+using MIMER.RFC822;
 namespace GoogleMigration
 {
     public class PstReader
@@ -22,7 +23,7 @@ namespace GoogleMigration
                 foreach (MailItem mailItem in mailItems)
                 {
                     rawMail.Add(CreateMail(mailItem));
-                    Console.Write(mailItem);
+                    //Console.Write(mailItem);
                     Console.WriteLine(mailItem.SenderName + @" - " + mailItem.Subject);
                 }
                 
@@ -77,14 +78,23 @@ namespace GoogleMigration
 
         private string CreateMail(MailItem mi)
         {
+
+            string mDate = string.Format("{0} {1} {2} {3}:{4}", mi.SentOn.Date.Day.ToString("D2"), mi.SentOn.Date.ToString("MMM"), mi.SentOn.Date.Year, mi.SentOn.TimeOfDay.Hours.ToString("D2"), mi.SentOn.TimeOfDay.Minutes.ToString("D2"));
+            string mSubject = mi.Subject;
+            string mBody = mi.Body;
+            string mId = mi.EntryID;
+            string mFrom = mi.Sender.Address;
+
+            string message = string.Format("Date: {0} \r\nFrom: {1} \r\nTo: {2} \r\nSubject: {3} \r\nMessage-Id: <{4}> \r\n{5}", mDate, mFrom, groupAddy, mSubject, mId, mBody);
+            return message;
             //string toAdd = "", fromAdd = "", ccAdd = "";
 
-           
             //MailAddress fromAddress = new MailAddress(mi.SenderEmailAddress, mi.SenderName);
-            MailMessage message = new MailMessage(groupAddy, mi.SenderEmailAddress);//toAdd, mi.Sender.Address,mi.Subject,mi.Body);
-           // message.Sender = fromAddress;
-            message.Subject = mi.Subject;
-            message.Body = mi.Body;
+            //MailMessage message = new MailMessage(groupAddy, mi.SenderEmailAddress);//toAdd, mi.Sender.Address,mi.Subject,mi.Body);
+            // message.Sender = fromAddress;
+            //message.Subject = mi.Subject;
+            //message.Body = mi.Body;
+
             //message.To.Add();
             /*foreach (Recipient rec in mi.Recipients)
             {
@@ -102,7 +112,7 @@ namespace GoogleMigration
                     }break;
                 }
             }*/
-            return message.ToString();
+            //return message.ToString();
         }
 
     }
